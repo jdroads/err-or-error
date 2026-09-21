@@ -1,6 +1,6 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
+<html lang="en"><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SYSTEM OFFLINE // RETRO DECK</title>
@@ -54,7 +54,7 @@
             text-align: center;
             background: rgba(15, 10, 28, 0.85);
             border: 4px solid #151517;
-            padding: 40px 45px; /* Slight padding reduction to leave maximum room for text width */
+            padding: 40px 45px;
             border-radius: 16px;
             box-shadow: 0 0 30px rgba(0, 242, 254, 0.2), inset 0 0 20px rgba(0,0,0,0.9);
             border-left: 5px solid #ff007f !important;
@@ -65,16 +65,56 @@
             backdrop-filter: blur(8px);
         }
 
+        /* Absolute context layout wrapper */
+        .glitch-code-wrapper {
+            position: relative;           /* Locks the avatar to this row container */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            margin-bottom: 15px;
+            min-height: 100px;            /* Ensures row matches the height of the 100px avatar */
+        }
+
+        /* Enforces a perfect circle design for transparent profile assets */
+        /* Pulled out of layout flow to stay pinned to the right edge */
+        .profile-avatar {
+            position: absolute;           /* Pulls image out of flow so it doesn't push text left */
+            right: 0;                     /* Pins it to the exact right edge of the container row */
+            width: 100px;                 
+            height: 100px;                
+            border-radius: 50%;           
+            object-fit: cover;            
+            flex-shrink: 0;               
+            
+            /* Neon Cyberpunk Glow Settings */
+            border: 3px solid #00f2fe;    
+            background-color: rgba(0, 242, 254, 0.05); 
+            box-shadow: 
+                0 0 12px rgba(0, 242, 254, 0.6),  
+                0 0 24px rgba(0, 242, 254, 0.4),  
+                inset 0 0 10px rgba(0, 242, 254, 0.3); 
+        }
+		
+        /* Centered title typography with a slight right-side offset nudge */
         .glitch-code {
-            // font-size: clamp(1.5rem, 6vw, 2.8rem) !important;
-			font-size: clamp(1.0rem, 5vw, 2.0rem) !important;
+            font-size: clamp(0.75rem, 3.8vw, 1.35rem) !important;
             margin: 0;
             color: #ff007f;
             text-shadow: 0 0 10px rgba(255, 0, 127, 0.8), 0 0 20px rgba(255, 0, 127, 0.4);
             animation: textFlicker 3s infinite;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis; 
+            
+            white-space: nowrap;       
+            overflow: hidden;          
+            text-overflow: ellipsis;   
+            
+            text-align: center;        /* Centers text perfectly to the entire chassis block */
+            width: 100%;
+            
+            /* The Nudge: Adds a slight right padding shift to balance the visual space */
+            padding-left: 20px;        
+            padding-right: 120px;       /* Extra clearance so the longest phrases don't overlap under the image */
+            box-sizing: border-box;
         }
 
         .error-status {
@@ -183,9 +223,14 @@
     <div class="neon-sun"></div>
 
     <div class="error-chassis">
-        <!-- Main dynamic display target for the randomized words -->
-        <h1 class="glitch-code" id="randomGlitchText">OUTAGE</h1>
-        
+        <!-- New Flex Wrapper hosting paired Image and Title text -->
+		
+		<!-- Position relative container that lets the text claim full centered width -->
+        <div class="glitch-code-wrapper">
+            <h1 class="glitch-code" id="randomGlitchText">I WANT MY MTV!</h1>
+            <img id="errorAvatar" class="profile-avatar" src="" alt="Profile Target">
+        </div>
+		
         <div class="error-status">CONNECTION TIMED OUT</div>
         
         <!-- Cassette-Style Window Progress Bar Module -->
@@ -195,55 +240,60 @@
         
         <!-- Descriptive Error Context Block -->
         <p class="error-message">
-            The 80s mixed tape player is currently unavailable. The host machine may be temporarily down for maintenance, powered off for a longer period of work, or may just be fucking with you. Personally, I'd bet on that last one. Check back later, or maybe give the admin a good, hard spanking.
+            The 80s mixed tape player is currently unavailable. The host machine may be temporarily down for maintenance, powered off for a longer period of configuration, or experiencing temporary connection difficulties. Please check back later or contact the system administrator.
         </p>
         
         <!-- Self-Healing Manual Reload Navigation Anchor Key -->
-        <a href="/" class="retry-action-btn" onclick="window.location.reload(true); return false;">
+        <a href="https://booboomoose.us" class="retry-action-btn" onclick="window.location.reload(true); return false;">
             REPLY HAZY, TRY AGAIN ↩
         </a>
     </div>
-
-    <script>
+	    <script>
         // Self-contained, lightweight script executing immediately on load
         (function() {
-            // An array of thematic synthwave error titles
-            const errorPhrases = [
-                "RUH-ROH!",
-                "DOES NOT COMPUTE",
-                "BUMMER",
-                "WELL, THAT SUCKS A BIG ONE",
-                "I WANT MY MTV!",
-                "WHERE'S THE BEEF?",
-                "DE-REZZED",
-                "GROUND CONTROL TO MAJOR TOM",
-				"I PITY THE FOOL!",
-				"I'VE FALLEN AND I CAN'T GET UP!",
-				"JINKIES!",
-				"BARF CITY",
-				"GADZOOKS!",
-				"TRIPPIN' BALLS",
-				"TRAGIC",
-				"GAG ME WITH A SPOON",
-				"ZOINKS!",
-				"GROSS-TACULAR",
-				"BOLLOCKS!",
-				"UNCOOL",
-				"IT's A HARD NO",
-				"FRANKIE SAYS RELAX",
-				"PRETTY VACANT",
-				"JEEPERS!"
+            // Paired dataset linking phrases directly to specific images
+            const errorCycles = [
+                { text: "RUH-ROH", img: "images/Ruh-Roh.png" },
+                { text: "DOES NOT COMPUTE", img: "images/DoesNotCompute1.png" },
+                { text: "BOGUS!", img: "images/Bogus.png" },
+                { text: "WELL, THAT SUCKS A BIG ONE...", img: "images/BigOne4.png" },
+                { text: "I WANT MY MTV!", img: "images/MTV.png" },
+                { text: "WHERE'S THE BEEF?", img: "images/Beef.png" },
+                { text: "DEREZZED", img: "images/Derezzed1.png" },
+                { text: "GROUND CONTROL TO MAJOR TOM", img: "images/GroundControl1.png" },
+                { text: "I PITY THE FOOL!", img: "images/Fool.png" },
+                { text: "I'VE FALLEN AND I CAN'T GET UP!", img: "images/Fallen.png" },
+                { text: "JINKIES!", img: "images/Jinkies.png" },
+                { text: "BARF CITY", img: "images/Barf.png" },
+                { text: "TRIPPIN' BALLS", img: "images/Trippin.png" },
+                { text: "TRAGIC", img: "images/Tragic.png" },
+                { text: "GAG ME WITH A SPOON!", img: "images/Valley1.png" },
+                { text: "GREAT SCOTT!", img: "images/GreatScott1.png" },				
+                { text: "ZOINKS!", img: "images/Zoinks.png" },
+                { text: "GROSS-TACULAR", img: "images/Gross.png" },
+                { text: "BOLLOCKS!", img: "images/Bollocks.png" },
+                { text: "UNCOOL", img: "images/Uncool.png" },
+                { text: "IT'S A HARD NO", img: "images/ItsAHardNo1.png" },
+				{ text: "IT'S JUST A JUMP TO THE LEFT", img: "images/Jump1.png" },
+                { text: "FRANKIE SAYS RELAX", img: "images/Relax.png" },
+                { text: "PRETTY VACANT", img: "images/Vacant1.png" },
+                { text: "JEEPERS!", img: "images/Jeepers.png" }
             ];
 
             // Pick an integer array index slot completely at random
-            const randomIndex = Math.floor(Math.random() * errorPhrases.length);
+            const randomIndex = Math.floor(Math.random() * errorCycles.length);
+            const currentSelection = errorCycles[randomIndex];
             
-            // Safe reference targeting the header element
+            // Safe execution updating DOM target strings and sources
             const displayHeader = document.getElementById('randomGlitchText');
-            if (displayHeader) {
-                displayHeader.innerText = errorPhrases[randomIndex];
+            const displayAvatar = document.getElementById('errorAvatar');
+            
+            if (displayHeader && displayAvatar) {
+                displayHeader.innerText = currentSelection.text;
+                displayAvatar.src = currentSelection.img;
             }
         })();
     </script>
-</body>
-</html>
+<script type="module" src="SYSTEM%20OFFLINE%20__%20RETRO%20DECK_files/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495_0mCX" integrity="sha512-iIg7k2xntmwu6/uSb5tpc/hySgZc4eoL31yB29W6tJFo2akwjPWcEqnCEdJvGexCL0KEQwVYv5BlowfhVz26hg==" data-cf-beacon="{&quot;version&quot;:&quot;2024.11.0&quot;,&quot;token&quot;:&quot;74cb00bdacc64cff87f818dfd6ba5403&quot;,&quot;r&quot;:1,&quot;spa&quot;:2}" crossorigin="anonymous"></script>
+
+</body></html>
