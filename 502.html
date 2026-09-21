@@ -217,9 +217,9 @@
             100% { opacity: 1; }
         }
 		
- #errorAvatar {
-    opacity: 0 !important;
-    transition: opacity 0.3s ease-in-out !important;
+#errorAvatar {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
 }
 
     /* 2. Target your text element using its ID and force it to wrap safely */
@@ -247,7 +247,7 @@
 		<!-- Position relative container that lets the text claim full centered width -->
         <div class="glitch-code-wrapper">
             <h1 class="glitch-code" id="randomGlitchText">I WANT MY MTV!</h1>
-            <img id="errorAvatar" class="profile-avatar" src="" alt="Profile Target">
+            <img id="errorAvatar" class="profile-avatar" src="" alt="" style="opacity: 0; transition: opacity 0.3s ease-in-out;">
         </div>
 		
         <div class="error-status">CONNECTION TIMED OUT</div>
@@ -298,31 +298,22 @@
                 { text: "JEEPERS!", img: "Jeepers.png" }
             ];
 
-            // Pick an integer array index slot completely at random
-            const randomIndex = Math.floor(Math.random() * errorCycles.length);
-            const currentSelection = errorCycles[randomIndex];
-            
-            // Safe execution updating DOM target strings and sources
-            const displayHeader = document.getElementById('randomGlitchText');
-            const displayAvatar = document.getElementById('errorAvatar');
-            
+        const randomIndex = Math.floor(Math.random() * errorCycles.length);
+        const currentSelection = errorCycles[randomIndex];
+        
+        const displayHeader = document.getElementById('randomGlitchText');
+        const displayAvatar = document.getElementById('errorAvatar');
+        
         if (displayHeader && displayAvatar) {
             displayHeader.innerText = currentSelection.text;
 
-            // 1. Hide the element instantly so the placeholder text "PROFILE TARGET" can't be seen
-            displayAvatar.style.opacity = "0";
-            displayAvatar.style.transition = "opacity 0.3s ease-in-out";
-
-            // 2. Rebuild the URL string cleanly to bypass character-stripping bugs
             const base = "https://" + "raw." + "githubusercontent" + ".com/";
             const repoPath = "jdroads/" + "err-or-error" + "/main/";
 
-            // 3. Smoothly fade the image in only AFTER it has fully finished downloading
             displayAvatar.onload = function() {
                 displayAvatar.style.opacity = "1";
             };
 
-            // 4. Start the file download
             displayAvatar.src = base + repoPath + currentSelection.img;
         }
     })();
