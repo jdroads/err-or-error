@@ -217,11 +217,10 @@
             100% { opacity: 1; }
         }
 		
-@media (max-width: 768px) {
-    /* 1. Hide the image completely */
-    #errorAvatar {
-        display: none !important;
-    }
+ #errorAvatar {
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
 
     /* 2. Target your text element using its ID and force it to wrap safely */
     #randomGlitchText {
@@ -235,7 +234,7 @@
         flex-direction: column !important; /* Changes row to a vertical stack */
         width: 100% !important;
     }
-}
+
     </style>
 </head>
 <body>
@@ -307,19 +306,25 @@
             const displayHeader = document.getElementById('randomGlitchText');
             const displayAvatar = document.getElementById('errorAvatar');
             
-            if (displayHeader && displayAvatar) {
-                displayHeader.innerText = currentSelection.text;
-				
-			if (displayHeader && displayAvatar) {
-				displayHeader.innerText = currentSelection.text;
-    
-			// Rebuilding the URL using character codes to prevent text-stripping bugs
-			const base = "https://" + "raw." + "githubusercontent" + ".com/";
-			const repoPath = "jdroads/" + "err-or-error" + "/main/";
-    
-			displayAvatar.src = base + repoPath + currentSelection.img;
-			}
-            }
-        })();
-    </script>
+        if (displayHeader && displayAvatar) {
+            displayHeader.innerText = currentSelection.text;
+
+            // 1. Hide the element instantly so the placeholder text "PROFILE TARGET" can't be seen
+            displayAvatar.style.opacity = "0";
+            displayAvatar.style.transition = "opacity 0.3s ease-in-out";
+
+            // 2. Rebuild the URL string cleanly to bypass character-stripping bugs
+            const base = "https://" + "raw." + "githubusercontent" + ".com/";
+            const repoPath = "jdroads/" + "err-or-error" + "/main/";
+
+            // 3. Smoothly fade the image in only AFTER it has fully finished downloading
+            displayAvatar.onload = function() {
+                displayAvatar.style.opacity = "1";
+            };
+
+            // 4. Start the file download
+            displayAvatar.src = base + repoPath + currentSelection.img;
+        }
+    })();
+</script>
 </body></html>
