@@ -220,6 +220,11 @@
 		#errorAvatar {
 			opacity: 0;
 			transition: opacity 0.3s ease-in-out;
+			width: 100%;        /* Allows it to fill its structural box */
+			max-width: 300px;   /* Change this to the exact size you want the image to be */
+			height: auto;       /* Keeps the retro proportions perfect */
+			display: block;     /* Prevents inline element alignment bugs */
+			margin: 0 auto;     /* Centers the graphic inside the container box */
 		}
     </style>
 </head>
