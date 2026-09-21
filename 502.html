@@ -216,6 +216,11 @@
             0% { opacity: 0.3; }
             100% { opacity: 1; }
         }
+		
+		#errorAvatar {
+			opacity: 0;
+			transition: opacity 0.3s ease-in-out;
+		}
     </style>
 </head>
 <body>
@@ -248,59 +253,65 @@
             REPLY HAZY, TRY AGAIN ↩
         </a>
     </div>
-	    <script>
-        // Self-contained, lightweight script executing immediately on load
-        (function() {
-            // Paired dataset linking phrases directly to specific images
-            const errorCycles = [
-                { text: "RUH-ROH", img: "Ruh-Roh.png" },
-                { text: "DOES NOT COMPUTE", img: "DoesNotCompute1.png" },
-                { text: "BOGUS!", img: "Bogus.png" },
-                { text: "WELL, THAT SUCKS A BIG ONE...", img: "BigOne4.png" },
-                { text: "I WANT MY MTV!", img: "MTV.png" },
-                { text: "WHERE'S THE BEEF?", img: "Beef.png" },
-                { text: "DEREZZED", img: "Derezzed1.png" },
-                { text: "GROUND CONTROL TO MAJOR TOM", img: "GroundControl1.png" },
-                { text: "I PITY THE FOOL!", img: "Fool.png" },
-                { text: "I'VE FALLEN AND I CAN'T GET UP!", img: "Fallen.png" },
-                { text: "JINKIES!", img: "Jinkies.png" },
-                { text: "BARF CITY", img: "Barf.png" },
-                { text: "TRIPPIN' BALLS", img: "Trippin.png" },
-                { text: "TRAGIC", img: "Tragic.png" },
-                { text: "GAG ME WITH A SPOON!", img: "Valley1.png" },
-                { text: "GREAT SCOTT!", img: "GreatScott1.png" },				
-                { text: "ZOINKS!", img: "Zoinks.png" },
-                { text: "GROSS-TACULAR", img: "Gross.png" },
-                { text: "BOLLOCKS!", img: "Bollocks.png" },
-                { text: "UNCOOL", img: "Uncool.png" },
-                { text: "IT'S A HARD NO", img: "ItsAHardNo1.png" },
-				{ text: "IT'S JUST A JUMP TO THE LEFT", img: "Jump1.png" },
-                { text: "FRANKIE SAYS RELAX", img: "Relax.png" },
-                { text: "PRETTY VACANT", img: "Vacant1.png" },
-                { text: "JEEPERS!", img: "Jeepers.png" }
-            ];
+<script>
+    // Self-contained, lightweight script executing immediately on load
+    (function() {
+        // Paired dataset linking phrases directly to specific images
+        const errorCycles = [
+            { text: "RUH-ROH", img: "Ruh-Roh.png" },
+            { text: "DOES NOT COMPUTE", img: "DoesNotCompute1.png" },
+            { text: "BOGUS!", img: "Bogus.png" },
+            { text: "WELL, THAT SUCKS A BIG ONE...", img: "BigOne4.png" },
+            { text: "I WANT MY MTV!", img: "MTV.png" },
+            { text: "WHERE'S THE BEEF?", img: "Beef.png" },
+            { text: "DEREZZED", img: "Derezzed1.png" },
+            { text: "GROUND CONTROL TO MAJOR TOM", img: "GroundControl1.png" },
+            { text: "I PITY THE FOOL!", img: "Fool.png" },
+            { text: "I'VE FALLEN AND I CAN'T GET UP!", img: "Fallen.png" },
+            { text: "JINKIES!", img: "Jinkies.png" },
+            { text: "BARF CITY", img: "Barf.png" },
+            { text: "TRIPPIN' BALLS", img: "Trippin.png" },
+            { text: "TRAGIC", img: "Tragic.png" },
+            { text: "GAG ME WITH A SPOON!", img: "Valley1.png" },
+            { text: "GREAT SCOTT!", img: "GreatScott1.png" },				
+            { text: "ZOINKS!", img: "Zoinks.png" },
+            { text: "GROSS-TACULAR", img: "Gross.png" },
+            { text: "BOLLOCKS!", img: "Bollocks.png" },
+            { text: "UNCOOL", img: "Uncool.png" },
+            { text: "IT'S A HARD NO", img: "ItsAHardNo1.png" },
+            { text: "IT'S JUST A JUMP TO THE LEFT", img: "Jump1.png" },
+            { text: "FRANKIE SAYS RELAX", img: "Relax.png" },
+            { text: "PRETTY VACANT", img: "Vacant1.png" },
+            { text: "JEEPERS!", img: "Jeepers.png" }
+        ];
 
-            // Pick an integer array index slot completely at random
-            const randomIndex = Math.floor(Math.random() * errorCycles.length);
-            const currentSelection = errorCycles[randomIndex];
-            
-            // Safe execution updating DOM target strings and sources
-            const displayHeader = document.getElementById('randomGlitchText');
-            const displayAvatar = document.getElementById('errorAvatar');
-            
-            if (displayHeader && displayAvatar) {
-                displayHeader.innerText = currentSelection.text;
-				
-			if (displayHeader && displayAvatar) {
-				displayHeader.innerText = currentSelection.text;
-    
-			// Rebuilding the URL using character codes to prevent text-stripping bugs
-			const base = "https://" + "raw." + "githubusercontent" + ".com/";
-			const repoPath = "jdroads/" + "err-or-error" + "/main/";
-    
-			displayAvatar.src = base + repoPath + currentSelection.img;
-			}
-            }
-        })();
-    </script>
+        // Pick an integer array index slot completely at random
+        const randomIndex = Math.floor(Math.random() * errorCycles.length);
+        const currentSelection = errorCycles[randomIndex];
+        
+        // Safe execution updating DOM target strings and sources
+        const displayHeader = document.getElementById('randomGlitchText');
+        const displayAvatar = document.getElementById('errorAvatar');
+        
+        if (displayHeader && displayAvatar) {
+            displayHeader.innerText = currentSelection.text;
+
+            // Make the avatar invisible right away to hide the loading/placeholder pop
+            displayAvatar.style.opacity = "0";
+            displayAvatar.style.transition = "opacity 0.3s ease-in-out";
+
+            // Rebuilding the URL using character codes to prevent text-stripping bugs
+            const base = "https://" + "raw." + "githubusercontent" + ".com/";
+            const repoPath = "jdroads/" + "err-or-error" + "/main/";
+
+            // Wait until the image file completely loads, then smoothly reveal it
+            displayAvatar.onload = function() {
+                displayAvatar.style.opacity = "1";
+            };
+
+            // Set the target URL source to begin downloading the image
+            displayAvatar.src = base + repoPath + currentSelection.img;
+        }
+    })();
+</script>
 </body></html>
