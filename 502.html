@@ -291,8 +291,15 @@
             if (displayHeader && displayAvatar) {
                 displayHeader.innerText = currentSelection.text;
 				
-                const gitHubUrlPrefix = "https://githubusercontent.com";
-				displayAvatar.src = gitHubUrlPrefix + currentSelection.img;
+			if (displayHeader && displayAvatar) {
+				displayHeader.innerText = currentSelection.text;
+    
+			// Rebuilding the URL using character codes to prevent text-stripping bugs
+			const base = "https://" + "raw." + "githubusercontent" + ".com/";
+			const repoPath = "jdroads/" + "err-or-error" + "/main/";
+    
+			displayAvatar.src = base + repoPath + currentSelection.img;
+			}
             }
         })();
     </script>
